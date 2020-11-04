@@ -30,6 +30,8 @@ module.exports = {
         useTabs: false,
       },
     ],
+    omitLastInOneLineBlock: 0,
+    beforeStatementContinuationChars: 0,
     'no-console': 1,
     'object-curly-spacing': [1, 'always'],
     'react-hooks/rules-of-hooks': 2,
@@ -79,6 +81,6 @@ module.exports = {
   globals: {
     arguments: true,
   },
-};
+}
 // https://www.carlrippon.com/creating-react-and-typescript-apps-with-webpack/
 // https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project

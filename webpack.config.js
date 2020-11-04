@@ -1,10 +1,10 @@
-const path = require('path');
-const webpack = require('webpack');
-const Dotenv = require('dotenv-webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const Dotenv = require('dotenv-webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 // import path from 'path';
 // import webpack from 'webpack';
@@ -15,7 +15,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 const configWebpack = (env, { mode = 'development' }) => {
-  const isDev = mode === 'development';
+  const isDev = mode === 'development'
   const config = {
     mode,
     entry: { app: './src/index.tsx' },
@@ -50,11 +50,11 @@ const configWebpack = (env, { mode = 'development' }) => {
           use: [
             'style-loader',
             {
-              loader: 'css-loader',
+              loader: 'css-loader', // Parse the css into js
               options: { sourceMap: isDev },
             },
             {
-              loader: 'sass-loader',
+              loader: 'sass-loader', // Convert Scss/sass to css
               options: { sourceMap: isDev },
             },
           ],
@@ -83,56 +83,42 @@ const configWebpack = (env, { mode = 'development' }) => {
         },
       ],
     },
-    watch: isDev,
-    watchOptions: {
-      aggregateTimeout: 300,
-      poll: 1000,
-      ignored: /node_modules/,
-    },
     optimization: {
       mangleWasmImports: true,
       mergeDuplicateChunks: true,
-      minimize: true,
-      nodeEnv: 'production',
+      nodeEnv: mode,
     },
     stats: { warningsFilter: /export .* was not found in/ },
     ignoreWarnings: [/Failed to parse source map/],
     plugins: [
       new Dotenv(),
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': '"production"',
-      }),
-      new HtmlWebpackPlugin({
-        filename: path.resolve(__dirname, 'dist/index.html'),
-        template: path.resolve(__dirname, 'src/index.html'),
-      }),
-    ],
-  };
-
-  if (isDev) {
-    config.devtool = 'source-map';
-    config.module.rules.push({
-      test: /\.js$/,
-      enforce: 'pre',
-      exclude: /node_modules/,
-      use: ['source-map-loader'],
-    });
-    config.plugins = [
-      new webpack.ProgressPlugin(),
-      new webpack.EnvironmentPlugin({
-        NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
-        DEBUG: false,
-      }),
-      new webpack.HotModuleReplacementPlugin(),
       new ForkTsCheckerWebpackPlugin(),
       new HtmlWebpackPlugin({
         filename: path.resolve(__dirname, 'dist/index.html'),
         template: path.resolve(__dirname, 'src/index.html'),
       }),
-      new MiniCssExtractPlugin({ filename: './src/index.css' }),
+      new webpack.EnvironmentPlugin({
+        NODE_ENV: mode, // use 'development' unless process.env.NODE_ENV is defined
+      }),
       new CleanWebpackPlugin(),
-      new Dotenv(),
-    ];
+    ],
+  }
+
+  if (isDev) {
+    config.devtool = 'source-map'
+    config.module.rules.push({
+      test: /\.js$/,
+      enforce: 'pre',
+      exclude: /node_modules/,
+      use: ['source-map-loader'],
+    })
+    config.watch = true
+    config.watchOptions = {
+      aggregateTimeout: 300,
+      poll: 1000,
+      ignored: /node_modules/,
+    }
+    config.plugins = [...config.plugins, new webpack.ProgressPlugin(), new webpack.HotModuleReplacementPlugin()]
     config.devServer = {
       contentBase: path.resolve(__dirname, 'src'),
       hot: true,
@@ -156,15 +142,13 @@ const configWebpack = (env, { mode = 'development' }) => {
         warnings: false,
         publicPath: false,
       },
-    };
-    config.optimization = {
-      mangleWasmImports: true,
-      mergeDuplicateChunks: true,
-      minimize: false,
-      nodeEnv: 'development',
-    };
+    }
+    config.optimization.minimize = false
+  } else {
+    config.plugins = [...config.plugins, new MiniCssExtractPlugin({ filename: './src/index.css' })]
+    config.optimization.minimize = true
   }
-  return config;
-};
-module.exports = configWebpack;
+  return config
+}
+module.exports = configWebpack
 // export default configWebpack;

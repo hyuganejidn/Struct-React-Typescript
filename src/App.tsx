@@ -1,9 +1,18 @@
-import React from 'react';
-export interface HelloProps {
-  userName: string;
-  lang: string;
-}
+import React, { useEffect } from 'react'
+import { Provider } from 'react-redux'
+import { store } from './store/store'
+console.log('outsise  app hung')
 
-export const App = (props: HelloProps) => (
-  <h1>Hi {props.userName} asd as asd dasd asda 23 423 s aas as asdsaf as dsdf as e te ter ersd as</h1>
-);
+import Count from '@/pages/Count/Count'
+
+export const App = () => {
+  console.log('hung')
+  useEffect(() => {
+    console.log('app')
+  }, [])
+  return (
+    <Provider store={store}>
+      <Count />
+    </Provider>
+  )
+}

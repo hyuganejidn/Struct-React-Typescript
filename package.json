@@ -5,10 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --mode development --env development",
-    "build": "yarn clean && yarn start",
-    "start-pro": "webpack serve --mode production",
-    "build-pro": "yarn clean && yarn start-pro",
-    "clean": "rm -rf ./build/index.bundle.js"
+    "build": "webpack serve --mode production"
   },
   "husky": {
     "hooks": {
@@ -52,7 +49,7 @@
     "lint-staged": "^10.5.0",
     "mini-css-extract-plugin": "^1.2.1",
     "prettier": "^2.1.2",
-    "sass-loader": "^10.0.4",
+    "sass-loader": "^10.0.5",
     "source-map-loader": "^1.1.2",
     "style-loader": "^2.0.0",
     "ts-loader": "^8.0.7",
@@ -62,11 +59,14 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "@types/react-redux": "^7.1.9",
+    "node-sass": "^5.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
-    "redux-thunk": "^2.3.0",
-    "remove": "^0.1.5"
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "browserslist": {
     "production": [
