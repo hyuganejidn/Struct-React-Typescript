@@ -14,7 +14,7 @@
   },
   "lint-staged": {
     "./src/**/*": [
-      "prettier --write --ignore-unknown"
+      "prettier --write --ignore-unknown --no-verify"
     ],
     "*.{js,ts,tsx,ts}": [
       "eslint --fix"
@@ -27,6 +27,7 @@
     "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
     "@types/react": "^16.9.55",
     "@types/react-dom": "^16.9.9",
+    "@types/react-router-dom": "^5.1.6",
     "@types/webpack": "^4.41.24",
     "@types/webpack-dev-server": "^3.11.1",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
@@ -60,12 +61,14 @@
   },
   "dependencies": {
     "@types/react-redux": "^7.1.9",
+    "axios": "^0.21.0",
     "node-sass": "^5.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0"
   },
   "browserslist": {

@@ -1,4 +1,4 @@
-import * as types from './Count.contants'
+import * as types from './Count.constants'
 
 const initialState = 0
 

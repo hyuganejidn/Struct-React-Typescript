@@ -121,6 +121,7 @@ const configWebpack = (env, { mode = 'development' }) => {
     config.plugins = [...config.plugins, new webpack.ProgressPlugin(), new webpack.HotModuleReplacementPlugin()]
     config.devServer = {
       contentBase: path.resolve(__dirname, 'src'),
+      open: true,
       hot: true,
       port: 9090,
       compress: true,
